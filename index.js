@@ -73,30 +73,43 @@ var password = process.env["IOT_PASSWORD"] || "";
 var app = express_1.default();
 var server = http.createServer(app);
 axios_1.default.defaults.baseURL = process.env["BARRIER_SERVER"] || "";
-console.log("prepare for listening");
-server.listen(4000, function () { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, user, token, error_1;
-    return __generator(this, function (_b) {
-        switch (_b.label) {
-            case 0:
-                logger_1.logger.info("Loggin user " + username);
-                _b.label = 1;
-            case 1:
-                _b.trys.push([1, 3, , 4]);
-                return [4 /*yield*/, AuthProvider_1.login({ email: username, password: password })];
-            case 2:
-                _a = _b.sent(), user = _a.user, token = _a.token;
-                if (!user) {
-                    logger_1.logger.error("Unable to loggin");
-                }
-                ServerMessageProvider_1.ServerMessageProvider(token);
-                return [3 /*break*/, 4];
-            case 3:
-                error_1 = _b.sent();
-                logger_1.logger.error(error_1);
-                return [3 /*break*/, 4];
-            case 4: return [2 /*return*/];
-        }
+function run() {
+    return __awaiter(this, void 0, void 0, function () {
+        var _a, user, token_1, error_1;
+        var _this = this;
+        return __generator(this, function (_b) {
+            switch (_b.label) {
+                case 0:
+                    _b.trys.push([0, 2, , 3]);
+                    logger_1.logger.info("Trying to Login user " + username);
+                    return [4 /*yield*/, AuthProvider_1.login({ email: username, password: password })];
+                case 1:
+                    _a = _b.sent(), user = _a.user, token_1 = _a.token;
+                    if (!user) {
+                        logger_1.logger.error("Unable to loggin");
+                        return [2 /*return*/, process.exit(1)];
+                    }
+                    server.listen(4000, function () { return __awaiter(_this, void 0, void 0, function () {
+                        return __generator(this, function (_a) {
+                            try {
+                                ServerMessageProvider_1.ServerMessageProvider(token_1);
+                            }
+                            catch (error) {
+                                logger_1.logger.error(error);
+                            }
+                            return [2 /*return*/];
+                        });
+                    }); });
+                    return [3 /*break*/, 3];
+                case 2:
+                    error_1 = _b.sent();
+                    logger_1.logger.error(error_1.message);
+                    process.exit();
+                    return [3 /*break*/, 3];
+                case 3: return [2 /*return*/];
+            }
+        });
     });
-}); });
+}
+run();
 //# sourceMappingURL=index.js.map

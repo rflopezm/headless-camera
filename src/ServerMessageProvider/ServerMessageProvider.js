@@ -69,7 +69,7 @@ var ServerMessageProvider = function (token) {
         });
         socket.io.on("reconnect_error", function (error) { return __awaiter(void 0, void 0, void 0, function () {
             return __generator(this, function (_a) {
-                logger_1.logger.info("" + error);
+                logger_1.logger.error("" + error);
                 return [2 /*return*/];
             });
         }); });
