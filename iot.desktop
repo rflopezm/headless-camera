@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Name=IOT
+Exec=/home/pi/Parking.AppImage
+Terminal=true
+Exec=/usr/bin/bash -c /home/pi/parking.sh
+
